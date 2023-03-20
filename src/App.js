@@ -1,12 +1,11 @@
-import logo from "./logo.svg";
 import "./App.css";
-import { Box, Footer, Text } from "./Components";
+import { CurrencyBox, Footer } from "./Components";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Box />
+        <CurrencyBox />
         <Footer />
       </header>
     </div>

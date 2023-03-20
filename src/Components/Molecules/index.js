@@ -1,4 +1,4 @@
-import Box from "./CurrencyBox/Box";
+import Country from "./Country/Country";
 import Footer from "./Footer/Footer";
 
-export { Box, Footer };
+export { Country, Footer };
