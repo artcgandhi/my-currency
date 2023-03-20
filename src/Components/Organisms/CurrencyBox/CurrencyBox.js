@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Country } from "../../Molecules";
-
+import { Country, BoxHeader } from "../../Molecules";
 import "./CurrencyBox.css";
 
 const CurrencyBox = (props) => {
@@ -26,6 +25,12 @@ const CurrencyBox = (props) => {
   ]);
   return (
     <div className="container-box">
+      <BoxHeader
+        headerCountry="Country"
+        headerWeBuy="We Buy"
+        headerExchangeRate="Exchange Rate"
+        headerWeSell="We Sell"
+      />
       {rate.map((cn) => {
         return (
           <Country

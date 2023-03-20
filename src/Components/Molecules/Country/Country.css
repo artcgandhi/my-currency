@@ -1,0 +1,10 @@
+.country-wrapper {
+  display: flex;
+  justify-content: space-between;
+  background-color: tomato;
+}
+
+.country-wrapper .country-header {
+  background-color: darkslategrey;
+  align-items: center;
+}

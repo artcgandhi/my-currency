@@ -1,10 +1,11 @@
 import React from "react";
-import { Header, Text } from "../../Atoms";
+import { Gap, Header, Text } from "../../Atoms";
+import "./Country.css";
 
 const Country = (props) => {
   return (
     <div className="country-wrapper">
-      <Header headerName={props.country} />
+      <Header headerName={props.country} className="country-header" />
       <Text textContent={props.weBuy} />
       <Text textContent={props.exchangeRate} />
       <Text textContent={props.weSell} />
