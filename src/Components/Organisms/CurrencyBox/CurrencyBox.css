@@ -1,5 +1,5 @@
 .container-box {
   display: flex;
   flex-direction: column;
-  background-color: rgb(151, 104, 16);
+  min-width: 50vw;
 }

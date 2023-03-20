@@ -1,4 +1,10 @@
 .header-box {
   display: flex;
   flex-direction: row;
+  align-items: center;
+}
+
+.header-box div {
+  /* background-color: rgb(167, 115, 19); */
+  width: 25%;
 }
