@@ -1,0 +1,2 @@
+https://api.currencyfreaks.com/latest?apikey=
+e164ead667974323b50db78d2376c740

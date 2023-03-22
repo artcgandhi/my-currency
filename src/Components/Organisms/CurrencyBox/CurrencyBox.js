@@ -1,28 +1,72 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Country, BoxHeader } from "../../Molecules";
 import "./CurrencyBox.css";
 
-const CurrencyBox = (props) => {
-  const [rate, setRate] = useState([
+const CurrencyBox = () => {
+  const [myCurrency, setMyCurrency] = useState([
     {
-      country: "CAD",
-      rate: "12.232",
-      webuy: "12.532",
-      wesell: "12.000",
+      name: "CAD",
+      rate: "",
+      webuy: "312321",
+      wesell: "321423",
     },
     {
-      country: "EUR",
-      rate: "18.940",
-      webuy: "19.150",
-      wesell: "18.800",
+      name: "EUR",
+      rate: "",
+      webuy: "312321",
+      wesell: "321423",
     },
     {
-      country: "IDR",
-      rate: "15.000",
-      webuy: "15.900",
-      wesell: "14.500",
+      name: "IDR",
+      rate: "",
+      webuy: "312321",
+      wesell: "321423",
+    },
+    {
+      name: "JPY",
+      rate: "",
+      webuy: "312321",
+      wesell: "321423",
+    },
+    {
+      name: "CHF",
+      rate: "",
+      webuy: "312321",
+      wesell: "321423",
+    },
+    {
+      name: "GBP",
+      rate: "",
+      webuy: "312321",
+      wesell: "321423",
     },
   ]);
+  // fetch data from API and use tofixed to remove several digits after period
+  const fetchRates = async () => {
+    const ratesResponse = await fetch(
+      "https://api.currencyfreaks.com/latest?apikey=e164ead667974323b50db78d2376c740"
+    );
+    const dataRates = await ratesResponse.json();
+    setMyCurrency((prevState) => {
+      return prevState.map((item) => {
+        if (dataRates.rates.hasOwnProperty(item.name)) {
+          return {
+            ...item,
+            rate: Number(dataRates.rates[item.name]).toFixed(2),
+          };
+        } else {
+          return item;
+        }
+      });
+    });
+  };
+
+  useEffect(() => {
+    fetchRates();
+  }, []);
+
+  console.log(myCurrency.map((cn) => cn.rate));
+
   return (
     <div className="container-box">
       <BoxHeader
@@ -31,10 +75,11 @@ const CurrencyBox = (props) => {
         headerExchangeRate="Exchange Rate"
         headerWeSell="We Sell"
       />
-      {rate.map((cn) => {
+      {myCurrency.map((cn, index) => {
         return (
           <Country
-            country={cn.country}
+            key={index}
+            country={cn.name}
             weBuy={cn.webuy}
             exchangeRate={cn.rate}
             weSell={cn.wesell}
