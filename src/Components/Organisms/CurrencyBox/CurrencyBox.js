@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Simulate } from "react-dom/test-utils";
 import { Country, BoxHeader } from "../../Molecules";
+import HashLoader from "react-spinners/HashLoader";
 import "./CurrencyBox.css";
 
 const CurrencyBox = () => {
@@ -61,7 +61,9 @@ const CurrencyBox = () => {
       });
     });
   };
-
+  // change the value of webuy and wesell using
+  // the previous value of rate added to the previous value of rate multiply by 0.05 or 5%
+  // and then using tofixed(2) to remove several digits after period and convert it to string
   const setPercentage = () => {
     setMyCurrency((prevState) => {
       return prevState.map((e) => {
@@ -91,17 +93,26 @@ const CurrencyBox = () => {
         headerExchangeRate="Exchange Rate"
         headerWeSell="We Sell"
       />
-      {myCurrency.map((cn, index) => {
-        return (
-          <Country
-            key={index}
-            country={cn.name}
-            weBuy={cn.webuy}
-            exchangeRate={cn.rate}
-            weSell={cn.wesell}
-          />
-        );
-      })}
+      {someCurrency === false ? (
+        <HashLoader
+          color={"white"}
+          loading={true}
+          size={30}
+          cssOverride={{ alignSelf: "center" }}
+        />
+      ) : (
+        myCurrency.map((cn, index) => {
+          return (
+            <Country
+              key={index}
+              country={cn.name}
+              weBuy={cn.webuy}
+              exchangeRate={cn.rate}
+              weSell={cn.wesell}
+            />
+          );
+        })
+      )}
     </div>
   );
 };
