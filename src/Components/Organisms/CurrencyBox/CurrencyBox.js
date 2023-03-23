@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Simulate } from "react-dom/test-utils";
 import { Country, BoxHeader } from "../../Molecules";
 import "./CurrencyBox.css";
 
@@ -7,38 +8,38 @@ const CurrencyBox = () => {
     {
       name: "CAD",
       rate: "",
-      webuy: "312321",
-      wesell: "321423",
+      webuy: "",
+      wesell: "",
     },
     {
       name: "EUR",
       rate: "",
-      webuy: "312321",
-      wesell: "321423",
+      webuy: "",
+      wesell: "",
     },
     {
       name: "IDR",
       rate: "",
-      webuy: "312321",
-      wesell: "321423",
+      webuy: "",
+      wesell: "",
     },
     {
       name: "JPY",
       rate: "",
-      webuy: "312321",
-      wesell: "321423",
+      webuy: "",
+      wesell: "",
     },
     {
       name: "CHF",
       rate: "",
-      webuy: "312321",
-      wesell: "321423",
+      webuy: "",
+      wesell: "",
     },
     {
       name: "GBP",
       rate: "",
-      webuy: "312321",
-      wesell: "321423",
+      webuy: "",
+      wesell: "",
     },
   ]);
   // fetch data from API and use tofixed to remove several digits after period
@@ -61,11 +62,26 @@ const CurrencyBox = () => {
     });
   };
 
-  useEffect(() => {
-    fetchRates();
-  }, []);
+  const setPercentage = () => {
+    setMyCurrency((prevState) => {
+      return prevState.map((e) => {
+        return {
+          ...e,
+          webuy: (Number(e.rate) + Number(e.rate) * 0.05).toFixed(2),
+          wesell: (Number(e.rate) - Number(e.rate) * 0.05).toFixed(2),
+        };
+      });
+    });
+  };
 
-  console.log(myCurrency.map((cn) => cn.rate));
+  const someCurrency = myCurrency.some((e) => e.rate !== "");
+  useEffect(() => {
+    if (someCurrency) {
+      setPercentage();
+    } else {
+      fetchRates();
+    }
+  }, [someCurrency]);
 
   return (
     <div className="container-box">
