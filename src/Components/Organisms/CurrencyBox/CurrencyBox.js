@@ -4,6 +4,7 @@ import HashLoader from "react-spinners/HashLoader";
 import "./CurrencyBox.css";
 
 const CurrencyBox = () => {
+  const [loading, setLoading] = useState(false);
   const [myCurrency, setMyCurrency] = useState([
     {
       name: "CAD",
@@ -42,7 +43,12 @@ const CurrencyBox = () => {
       wesell: "",
     },
   ]);
-  // fetch data from API and use tofixed to remove several digits after period
+
+  useEffect(() => {
+    setLoading(true);
+    fetchRates();
+  }, []);
+
   const fetchRates = async () => {
     const ratesResponse = await fetch(
       "https://api.currencyfreaks.com/latest?apikey=e164ead667974323b50db78d2376c740"
@@ -51,39 +57,21 @@ const CurrencyBox = () => {
     setMyCurrency((prevState) => {
       return prevState.map((item) => {
         if (dataRates.rates.hasOwnProperty(item.name)) {
+          const exchangeRate = Number(dataRates.rates[item.name]).toFixed(2);
+          console.log("ini exchangerate", exchangeRate);
           return {
             ...item,
-            rate: Number(dataRates.rates[item.name]).toFixed(2),
+            rate: exchangeRate,
+            webuy: (Number(exchangeRate) + Number(exchangeRate) * 0.05).toFixed(2),
+            wesell: (Number(exchangeRate) - Number(exchangeRate) * 0.05).toFixed(2),
           };
         } else {
           return item;
         }
       });
     });
+    setLoading(false);
   };
-  // change the value of webuy and wesell using
-  // the previous value of rate added to the previous value of rate multiply by 0.05 or 5%
-  // and then using tofixed(2) to remove several digits after period and convert it to string
-  const setPercentage = () => {
-    setMyCurrency((prevState) => {
-      return prevState.map((e) => {
-        return {
-          ...e,
-          webuy: (Number(e.rate) + Number(e.rate) * 0.05).toFixed(2),
-          wesell: (Number(e.rate) - Number(e.rate) * 0.05).toFixed(2),
-        };
-      });
-    });
-  };
-
-  const someCurrency = myCurrency.some((e) => e.rate !== "");
-  useEffect(() => {
-    if (someCurrency) {
-      setPercentage();
-    } else {
-      fetchRates();
-    }
-  }, [someCurrency]);
 
   return (
     <div className="container-box">
@@ -93,7 +81,7 @@ const CurrencyBox = () => {
         headerExchangeRate="Exchange Rate"
         headerWeSell="We Sell"
       />
-      {someCurrency === false ? (
+      {loading === true ? (
         <HashLoader
           color={"white"}
           loading={true}
