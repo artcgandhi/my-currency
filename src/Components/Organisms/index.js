@@ -1,3 +1,3 @@
-import CurrencyBox from "./CurrencyBox/CurrencyBox";
+import CurrencyTable from "./CurrencyTable";
 
-export { CurrencyBox };
+export { CurrencyTable };

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Country, BoxHeader } from "../../Molecules";
 import HashLoader from "react-spinners/HashLoader";
-import "./CurrencyBox.css";
+import "./styles.module.css";
 
-const CurrencyBox = () => {
+const CurrencyTable = () => {
   const [loading, setLoading] = useState(false);
   const [myCurrency, setMyCurrency] = useState([
     {
@@ -74,13 +73,7 @@ const CurrencyBox = () => {
   };
 
   return (
-    <div className="container-box">
-      <BoxHeader
-        headerCountry="Country"
-        headerWeBuy="We Buy"
-        headerExchangeRate="Exchange Rate"
-        headerWeSell="We Sell"
-      />
+    <>
       {loading === true ? (
         <HashLoader
           color={"white"}
@@ -89,20 +82,29 @@ const CurrencyBox = () => {
           cssOverride={{ alignSelf: "center" }}
         />
       ) : (
-        myCurrency.map((cn, index) => {
-          return (
-            <Country
-              key={index}
-              country={cn.name}
-              weBuy={cn.webuy}
-              exchangeRate={cn.rate}
-              weSell={cn.wesell}
-            />
-          );
-        })
+        <table>
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>We Buy</th>
+              <th>Exchange Rate</th>
+              <th>We Sell</th>
+            </tr>
+          </thead>
+          <tbody>
+            {myCurrency.map((row, index) => (
+              <tr key={index.toString()}>
+                <td>{row.name}</td>
+                <td>{row.webuy}</td>
+                <td>{row.rate}</td>
+                <td>{row.wesell}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
-    </div>
+    </>
   );
 };
 
-export default CurrencyBox;
+export default CurrencyTable;
